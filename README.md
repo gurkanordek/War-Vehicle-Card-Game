@@ -1,80 +1,79 @@
-# ⚔️ War Vehicle Card Battle Simulation (Savaş Araçları Kart Oyunu)
+# ⚔️ War Vehicle Card Battle Simulation
 
-Bu proje, **Java** kullanılarak geliştirilmiş, Nesne Yönelimli Programlama (OOP) prensiplerine dayalı, stratejik bir kart savaşı simülasyonudur. Oyuncu ve bilgisayarın karşılıklı hamlelerle birbirlerinin araçlarını yok etmeye çalıştığı bu sistemde, **Kalıtım (Inheritance)**, **Çok Biçimlilik (Polymorphism)** ve **Soyutlama (Abstraction)** yapıları etkin bir şekilde kullanılmıştır.
+This project is a strategic card battle simulation developed using **Java**, based on Object-Oriented Programming (OOP) principles. In this system where the player and the computer try to destroy each other's vehicles with reciprocal moves, **Inheritance**, **Polymorphism**, and **Abstraction** structures are effectively utilized.
 
-## 📖 Proje Hakkında
+## 📖 About the Project
 
-Oyun, Kara, Hava ve Deniz olmak üzere 3 ana sınıfa ayrılan askeri araçların mücadelesini simüle eder. Başlangıçta temel araçlarla (Uçak, Obüs, Firkateyn) başlayan oyun, taraflar belirli bir skorun (20 Puan) üzerine çıktığında gelişmiş araçların (SİHA, SİDA, KFS) kilidinin açılmasıyla derinleşir.
+The game simulates the combat of military vehicles divided into 3 main classes: Land, Air, and Sea. Starting with basic vehicles (Aircraft, Howitzer, Frigate), the game deepens as advanced vehicles (UCAV, USV, KFS) are unlocked when the parties exceed a certain score (20 Points).
 
-Simülasyon sonuçları hem konsol ekranında gösterilmekte hem de `sim.txt` dosyasına loglanmaktadır.
+Simulation results are both displayed on the console screen and logged to the `sim.txt` file.
 
-### 🚀 Öne Çıkan Özellikler
+### 🚀 Key Features
 
-* **Gelişmiş OOP Mimarisi:** `SavasAraclari` soyut sınıfından türetilen alt sınıflar ve onlardan türetilen somut araçlar.
-* **Dinamik Avantaj Sistemi:** Taş-Kağıt-Makas mantığına benzer şekilde; Kara araçları Denize, Hava araçları Karaya, Deniz araçları Havaya karşı vuruş avantajına sahiptir.
-* **Seviye Sistemi:** Oyuncuların skoruna göre kart havuzuna yeni ve daha güçlü araçların (SİHA, KFS, SİDA) eklenmesi.
-* **Dayanıklılık Mekanizmi:** Saldırı alan kartların dayanıklılığı düşer, 0'a inen kart elenir ve rakibe puan kazandırır.
-* **Loglama:** Tüm oyun akışının (hamleler, hasarlar, skorlar) `sim.txt` dosyasına kaydedilmesi.
+* **Advanced OOP Architecture:** Subclasses derived from the `SavasAraclari` (WarVehicles) abstract class and concrete vehicles derived from them.
+* **Dynamic Advantage System:** Similar to the Rock-Paper-Scissors logic; Land vehicles have a strike advantage against Sea, Air vehicles against Land, and Sea vehicles against Air.
+* **Level System:** New and stronger vehicles (UCAV, KFS, USV) are added to the card pool based on the players' scores.
+* **Durability Mechanism:** The durability of cards that take damage decreases; a card reaching 0 is eliminated and earns points for the opponent.
+* **Logging:** Recording the entire game flow (moves, damages, scores) to the `sim.txt` file.
 
-## 🛠️ Sınıf Hiyerarşisi ve Mimari
+## 🛠️ Class Hierarchy and Architecture
 
-Proje, katmanlı bir sınıf yapısına sahiptir:
+The project has a layered class structure:
 
-1.  **Abstract Base (Temel):** `SavasAraclari` (Tüm araçların ortak özellikleri: Vuruş, Dayanıklılık, Seviye Puanı).
-2.  **Abstract Categories (Kategoriler):**
-    * `HavaAraclari` (Kara vuruş avantajı özelliği eklenir)
-    * `KaraAraclari` (Deniz vuruş avantajı özelliği eklenir)
-    * `DenizAraclari` (Hava vuruş avantajı özelliği eklenir)
-3.  **Concrete Classes (Somut Araçlar):**
-    * ✈️ **Hava:** `Ucak`, `Siha`
-    * 🚜 **Kara:** `Obus`, `KFS` (Kara Füze Sistemi)
-    * 🚢 **Deniz:** `Firkateyn`, `Sida` (Silahlı İnsansız Deniz Aracı)
+1.  **Abstract Base:** `SavasAraclari` (Common properties of all vehicles: Strike, Durability, Level Score).
+2.  **Abstract Categories:**
+    * `HavaAraclari` (AirVehicles) (Adds Land strike advantage property)
+    * `KaraAraclari` (LandVehicles) (Adds Sea strike advantage property)
+    * `DenizAraclari` (SeaVehicles) (Adds Air strike advantage property)
+3.  **Concrete Classes:**
+    * ✈️ **Air:** `Ucak` (Aircraft), `Siha` (UCAV)
+    * 🚜 **Land:** `Obus` (Howitzer), `KFS` (Land Missile System)
+    * 🚢 **Sea:** `Firkateyn` (Frigate), `Sida` (Armed Unmanned Surface Vehicle)
 
-## 🎮 Oyun Kuralları
+## 🎮 Game Rules
 
-1.  **Başlangıç:** Her iki tarafa (Oyuncu ve Bilgisayar) rastgele 6 kart dağıtılır.
-2.  **Seçim:** Oyuncu elindeki kartlardan 3 tanesini seçer, bilgisayar rastgele seçer.
-3.  **Savaş:** Seçilen kartlar sırayla karşılaştırılır.
-    * *Örnek:* Bir `Ucak` (Hava), `Obus`'e (Kara) saldırırsa, temel vuruş gücüne ek olarak "Kara Vuruş Avantajı" puanı eklenir ve hasar artar.
-4.  **Eleme:** Dayanıklılığı biten kart oyundan çıkar. Rakip, elenen kartın seviye puanı kadar skor kazanır.
-5.  **Bitiş:** Kartları tükenen taraf kaybeder veya belirlenen tur sayısı sonunda skorlar karşılaştırılır.
+1.  **Start:** 6 random cards are dealt to both parties (Player and Computer).
+2.  **Selection:** The player selects 3 cards from their hand, the computer selects randomly.
+3.  **Battle:** Selected cards are compared in order.
+    * *Example:* If an `Ucak` (Air) attacks an `Obus` (Land), "Land Strike Advantage" points are added to the base strike power, increasing the damage.
+4.  **Elimination:** A card with depleted durability is removed from the game. The opponent earns score equal to the eliminated card's level score.
+5.  **End:** The side running out of cards loses, or scores are compared at the end of the determined number of turns.
 
-## ⚙️ Kurulum ve Çalıştırma
+## ⚙️ Installation and Execution
 
-Projeyi yerel makinenizde çalıştırmak için:
+To run the project on your local machine:
 
-### 1. Derleme
-Terminal veya Komut Satırını açın ve proje dizinine gidin:
-*(Not: Dosyaların `src` klasörü içinde veya ana dizinde olmasına göre yol değişebilir)*
+### 1. Compilation
+Open Terminal or Command Prompt and navigate to the project directory:
+*(Note: The path may vary depending on whether the files are inside the `src` folder or the root directory)*
 
 ```bash
 javac *.java
 ```
-
-### 2. Çalıştırma
-Ana sınıf olan Oyun sınıfını çalıştırın:
+### 2. Execution
+Run the main class Oyun:
 
 ```bash
 java Oyun
 ```
 
-📂 Dosya Yapısı (Önerilen)
+## 📂 File Structure (Recommended)
 
 ```bash
 .
 ├── src/
-│   ├── SavasAraclari.java   # Soyut Temel Sınıf
-│   ├── KaraAraclari.java    # Soyut Sınıf
-│   ├── HavaAraclari.java    # Soyut Sınıf
-│   ├── DenizAraclari.java   # Soyut Sınıf
-│   ├── Ucak.java            # Somut Sınıf
-│   ├── Siha.java            # Somut Sınıf
-│   ├── Obus.java            # Somut Sınıf
-│   ├── KFS.java             # Somut Sınıf
-│   ├── Firkateyn.java       # Somut Sınıf
-│   ├── Sida.java            # Somut Sınıf
-│   ├── Oyuncu.java          # Oyuncu İşlemleri
-│   └── Oyun.java            # Main Metodu ve Oyun Döngüsü
-├── sim.txt                  # Oyun Log Dosyası (Otomatik oluşur)
+│   ├── SavasAraclari.java   # Abstract Base Class
+│   ├── KaraAraclari.java    # Abstract Class
+│   ├── HavaAraclari.java    # Abstract Class
+│   ├── DenizAraclari.java   # Abstract Class
+│   ├── Ucak.java            # Concrete Class
+│   ├── Siha.java            # Concrete Class
+│   ├── Obus.java            # Concrete Class
+│   ├── KFS.java             # Concrete Class
+│   ├── Firkateyn.java       # Concrete Class
+│   ├── Sida.java            # Concrete Class
+│   ├── Oyuncu.java          # Player Operations
+│   └── Oyun.java            # Main Method and Game Loop
+├── sim.txt                  # Game Log File (Automatically created)
 └── README.md
 ```
